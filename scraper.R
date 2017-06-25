@@ -56,7 +56,7 @@ getIFrameSource <- function() {
   }
   
   dr$executeScript(str_c('return document.getElementById("contentFrame")',
-                   ".contentWindow.document.body.innerHTML"))[[1]]
+                         ".contentWindow.document.body.innerHTML"))[[1]]
 }
 
 getReportURLs <- function() {
@@ -94,7 +94,7 @@ getReportURLs <- function() {
   # that are currently on the screen, wait.
   
   while (numClasses > length(getNodeSet(htmlParse(getIFrameSource()),
-                                 '//table[@id="EvaluatedCourses"]/tbody/tr/td/a'))) {
+                                        '//table[@id="EvaluatedCourses"]/tbody/tr/td/a'))) {
     Sys.sleep(1);
   }
   
@@ -127,70 +127,50 @@ getReportURLs <- function() {
 }
 
 
-# This creates R binary files to hold the evals, because otherwise they're
-# just too damn big to anything reasonable with.
-# Args: character vector representing local links on applyweb.com to be scraped
-getTraceEvals <- function(links) {
-  curLink <- 0 # Zero indexed because %% starts at 0, so add one to work with R
-  chunkSize <- 100
-  baseURL <- "https://www.applyweb.com"
-  evals <- list(mode="character", length=chunkSize)
-  startTime <- Sys.time()
-  
-  # Stores the current position if you start and stop the script
-  on.exit({curLink <<- curLink})
-  
-  while (curLink < length(links)) {
-    # Get the current link to scrape
-    link <- links[curLink + 1]
-    dr$navigate(str_c(baseURL, link))
-    
-    # I'm not doing any parsing here because evals for different programs
-    # have different formats, and I want the scraper to be general
-    eval <- getIFrameSource()
-    evals[[(curLink %% chunkSize) + 1]] <- eval
-    
-    if (curLink %% 10 == 0) {
-      curTime <- Sys.time()
-      avgTime <- (curTime - startTime) / curLink
-      print(str_c("SCRAPED ", curLink, " EVALS ",
-                  "IN ", round(avgTime, 3), " SECONDS PER EVAL: ",
-                  "ESTIMATED COMPLETION AT ", 
-                  format(curTime + ((length(links) - curLink) * avgTime), 
-                         "%Y-%m-%d %H:%M")))
-    }
-    curLink <- curLink + 1;
-    
-    if (curLink %% chunkSize == 0) {
-      print("DUMPED EVALS TO FILE")
-      save(evals, file=str_c("evals", curLink))
-    }
-  }
-}
-
-
-# Launch the selenium driver
-mybrowser <- rsDriver()
-dr <- mybrowser$client
-
-login()
-linkDF <- getReportURLs()
-
-# Scraping everythign is kind of tedious, so let's just do CS classes
-csClassLinks <- linkDF %>%
-  filter(str_detect(CourseNumber, '^(CS|IS|DS|DSCS|IA)[0-9]{4,}')) %>%
-  .$Link
-
-getTraceEvals(csClassLinks)
-
-
-load("evals1")
-eval <- evals[[1]]
-
-
-
 parseTraceEval <- function(eval) {
   out <- vector(mode="character")
+  
+  tree <- htmlParse(eval, useInternalNodes = TRUE)
+  
+  name <- xmlValue(getNodeSet(tree, '/html/body/div[1]/div[2]/div/h3')[[1]])
+  course_data <- getNodeSet(tree, '/html/body/div[1]/div[2]/div/div/div[1]/ul/li/strong') %>%
+    xmlSApply(xmlValue) 
+  survey_response <- getNodeSet(tree, '/html/body/div[1]/div[2]/div/div/div[2]/ul/li/strong') %>%
+    xmlSApply(xmlValue) 
+  
+  processBarChart <- function(xpath) {
+    getNodeSet(tree, xpath) %>%
+      xmlSApply(function(x) xmlSApply(x, xmlValue) %>% str_extract("[0-9]\\.[0-9]")) %>%
+      unlist() %>% t()
+  }
+  
+  category_summary <- processBarChart('//*[@id="bar_mean_cat_1"]/div/div[1]/div/svg/g[2]/g[4]')
+  course_related_questions <- processBarChart('//*[@id="bar_mean_2_1"]/div/div[1]/div/svg/g[2]/g[4]')
+  learning_related_questions <- processBarChart('//*[@id="bar_mean_2_2"]/div/div[1]/div/svg/g[2]/g[4]')
+  instructor_related_questions <- processBarChart('//*[@id="bar_mean_2_3"]/div/div[1]/div/svg/g[2]/g[4]')
+  instructor_overall <- processBarChart('//*[@id="bar_mean_2_22"]/div/div[1]/div/svg/g[2]/g[4]')
+  
+  times <- c("1-", "5-", "9-", "3-", "7-")
+  
+  # Percents and labels are stored seperately... but in the same order! So not
+  # all is lost, we can lookup the order of the times and match.
+  percents <- xmlSApply(getNodeSet(tree, '//*[@id="pie_3_9"]/svg/g[3]'), xmlValue) %>%
+    str_split("%(?!$)") %>% extract2(1) %>% str_replace(., "%", "")
+  labels <- xmlSApply(getNodeSet(tree, '//*[@id="pie_3_9"]/svg/g[4]'), xmlValue)
+  
+  # This clever regex lets us only care about the right before the dash,
+  # which is unique between timeslots
+  labels <- str_split(labels, "[0-9]+(?=([0-9]-|$))")[[1]]
+  timeSpentInOrder <- 
+    sapply(times, function(x) 
+      ifelse(length(which(labels == x)), 
+             percents[which(labels == x)], NA))
+  
+  
+  out <- c(name, course_data, survey_response, category_summary,
+           course_related_questions, learning_related_questions, instructor_related_questions,
+           instructor_overall, timeSpentInOrder)
+  
   names(out) <- c("Course Name",
                   "Instructor",
                   "Section",
@@ -291,38 +271,63 @@ parseTraceEval <- function(eval) {
                   "Instructor Displayed Enthusiasm University",
                   "Instructor Overall Course",
                   "Instructor Overall Department",
-                  "Instructor Overall University")
+                  "Instructor Overall University",
+                  "Spent 1-4 Hours",
+                  "Spent 5-8 Hours",
+                  "Spent 9-12 Hours",
+                  "Spent 13-16 Hours",
+                  "Spent 17-20 Hours")
+  return(out)
+}
+
+# Args: character vector representing local links on applyweb.com to be scraped
+getTraceEvals <- function(links) {
+  curLink <- 1
+  baseURL <- "https://www.applyweb.com"
+  evals <- list(mode="character", length=length(links))
   
-  tree <- htmlParse(eval, useInternalNodes = TRUE)
+  # Stores the current position if you start and stop the script
+  on.exit({curLink <<- curLink})
   
-  name <- xmlValue(getNodeSet(tree, '/html/body/div[1]/div[2]/div/h3')[[1]])
-  course_data <- getNodeSet(tree, '/html/body/div[1]/div[2]/div/div/div[1]/ul/li/strong') %>%
-    xmlSApply(xmlValue) 
-  survey_response <- getNodeSet(tree, '/html/body/div[1]/div[2]/div/div/div[2]/ul/li/strong') %>%
-    xmlSApply(xmlValue) 
-  
-  processBarChart <- function(xpath) {
-    getNodeSet(tree, xpath) %>%
-      xmlSApply(function(x) xmlSApply(x, xmlValue) %>% str_extract("[0-9]\\.[0-9]")) %>%
-      unlist() %>% t()
+  while (curLink < length(links)) {
+    # Get the current link to scrape
+    link <- links[curLink]
+    dr$navigate(str_c(baseURL, link))
+    
+    # I'm not doing any parsing here because evals for different programs
+    # have different formats, and I want the scraper to be general
+    evals[[curLink]] <- 
+      getIFrameSource() %>%
+      parseTraceEval()
+    
+    
+    curLink <- curLink + 1
+    if (curLink %% 10 == 0) {
+      print(str_c("SCRAPED ", curLink, " EVALS "))
+    }
   }
-  
-  category_summary <- processBarChart('//*[@id="bar_mean_cat_1"]/div/div[1]/div/svg/g[2]/g[4]')
-  course_related_questions <- processBarChart('//*[@id="bar_mean_2_1"]/div/div[1]/div/svg/g[2]/g[4]')
-  learning_related_questions <- processBarChart('//*[@id="bar_mean_2_2"]/div/div[1]/div/svg/g[2]/g[4]')
-  instructor_related_questions <- processBarChart('//*[@id="bar_mean_2_3"]/div/div[1]/div/svg/g[2]/g[4]')
-  instructor_overall <- processBarChart('//*[@id="bar_mean_2_22"]/div/div[1]/div/svg/g[2]/g[4]')
-  
-  times <- c("1-4", "5-8", "9-12", "13-16", "17-20")
-  
-  percents <- xmlSApply(getNodeSet(tree, '//*[@id="pie_3_9"]/svg/g[3]'), xmlValue)
-  labels <- xmlSApply(getNodeSet(tree, '//*[@id="pie_3_9"]/svg/g[4]'), xmlValue)
-  
-  out <- c(name, course_data, survey_response, category_summary,
-    course_related_questions, learning_related_questions, instructor_related_questions,
-    instructor_overall)
+  return (evals)
 }
 
 
+
+
+
+
+# Launch the selenium driver
+mybrowser <- rsDriver()
+dr <- mybrowser$client
+
+login()
+linkDF <- getReportURLs()
+
+# Scraping everythign is kind of tedious, so let's just do CS classes
+csClassLinks <- linkDF %>%
+  filter(str_detect(CourseNumber, '^(CS|IS|DS|DSCS|IA)[0-9]{4,}')) %>%
+  .$Link
+
+csEvals <- getTraceEvals(csClassLinks)
+csEvalsDF <- csEvals %>% unlist %>% matrix(byrow=TRUE, ncol=106)
+write.csv(csEvalsDF, "CS TRACE Evaluations.csv")
 
 mybrowser$server$stop()
