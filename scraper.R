@@ -170,8 +170,41 @@ parseTraceEval <- function(eval) {
   out <- c(name, course_data, survey_response, category_summary,
            course_related_questions, learning_related_questions, instructor_related_questions,
            instructor_overall, timeSpentInOrder)
+  return(out)
+}
+
+# Args: character vector representing local links on applyweb.com to be scraped
+getTraceEvals <- function(links) {
+  curLink <- 1
+  baseURL <- "https://www.applyweb.com"
+  evals <- list(mode="character", length=length(links))
   
-  names(out) <- c("Course Name",
+  # Stores the current position if you start and stop the script
+  on.exit({curLink <<- curLink})
+  
+  while (curLink < length(links)) {
+    # Get the current link to scrape
+    link <- links[curLink]
+    dr$navigate(str_c(baseURL, link))
+    
+    # I'm not doing any parsing here because evals for different programs
+    # have different formats, and I want the scraper to be general
+    evals[[curLink]] <- 
+      getIFrameSource() %>%
+      parseTraceEval()
+    
+    
+    curLink <- curLink + 1
+    if (curLink %% 10 == 0) {
+      print(str_c("SCRAPED ", curLink, " EVALS "))
+    }
+  }
+  return (evals)
+}
+
+
+# Every field scraped:
+scrapeFieldNames <- c("Course Name",
                   "Instructor",
                   "Section",
                   "Course Title",
@@ -277,40 +310,6 @@ parseTraceEval <- function(eval) {
                   "Spent 9-12 Hours",
                   "Spent 13-16 Hours",
                   "Spent 17-20 Hours")
-  return(out)
-}
-
-# Args: character vector representing local links on applyweb.com to be scraped
-getTraceEvals <- function(links) {
-  curLink <- 1
-  baseURL <- "https://www.applyweb.com"
-  evals <- list(mode="character", length=length(links))
-  
-  # Stores the current position if you start and stop the script
-  on.exit({curLink <<- curLink})
-  
-  while (curLink < length(links)) {
-    # Get the current link to scrape
-    link <- links[curLink]
-    dr$navigate(str_c(baseURL, link))
-    
-    # I'm not doing any parsing here because evals for different programs
-    # have different formats, and I want the scraper to be general
-    evals[[curLink]] <- 
-      getIFrameSource() %>%
-      parseTraceEval()
-    
-    
-    curLink <- curLink + 1
-    if (curLink %% 10 == 0) {
-      print(str_c("SCRAPED ", curLink, " EVALS "))
-    }
-  }
-  return (evals)
-}
-
-
-
 
 
 
@@ -326,8 +325,10 @@ csClassLinks <- linkDF %>%
   filter(str_detect(CourseNumber, '^(CS|IS|DS|DSCS|IA)[0-9]{4,}')) %>%
   .$Link
 
+
 csEvals <- getTraceEvals(csClassLinks)
 csEvalsDF <- csEvals %>% unlist %>% matrix(byrow=TRUE, ncol=106)
-write.csv(csEvalsDF, "CS TRACE Evaluations.csv")
+colnames(csEvalsDF) <- scrapeFieldNames
+write.csv(csEvalsDF, "CS TRACE Evaluations.csv", row.names = FALSE)
 
 mybrowser$server$stop()
