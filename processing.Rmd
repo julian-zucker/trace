@@ -1,0 +1,106 @@
+---
+title: "analysis"
+author: "julian-zucker"
+date: "6/26/2017"
+output: 
+ md_document:
+    variant: markdown_github
+---
+
+```{r setup, include=FALSE}
+
+library(knitr)
+library(plyr)
+library(dplyr)
+library(magrittr)
+library(ggplot2)
+library(doBy)
+library(stringr)
+csEvals <- read.csv("CS TRACE Evaluations.csv")
+
+```
+
+I want to cut out the variables that aren't adding value to the dataset.  Anything from the department or university isn't really related to the class, so we shouldn't be storing them by class. It takes way more memory (which isn't really a problem with just CS classes after 2015, but I want to be able to use this same process to handle every class), and its harder to interpret. To do that, we need to split `Course.Name` into a `Name` and a `Semester`, so that we can perform analysis based on time.
+
+
+```{r}
+
+splitNames <- csEvals$Course.Name %>%
+  str_split(" \\(|\\)") 
+
+csEvals$Course.Name <- splitNames %>% 
+  sapply(function(x) extract2(x, 1))
+
+csEvals$Semester <- splitNames %>% 
+  sapply(function(x) extract2(x, 2))
+
+```
+
+Now let's pull out all the department and university data into a seperate dataframe, and remove it from `csEvals`.
+
+```{r}
+
+
+firstOfEachTime <- !duplicated(csEvals$Semester)
+aggregateStats <- csEvals[firstOfEachTime,] %>%
+  select(matches("Department|University"))
+
+# 61 variables? That's weird, it should be divisible by two,
+# because each variable for department should have a corresponding
+# variable for the university. 
+
+colnames(aggregateStats)
+
+# "Department" is the odd one out. It's probably a good idea
+# to leave it in here: knowing the department average isn't much use without 
+# knowing the department!
+
+csEvals <- csEvals %>%
+  select(-matches(".(Department|University)"))
+
+# The regexes are slightly different because I want to
+# match "Department" in the first but not the second
+```
+
+Much more manageable. Time to define some utility functions on TRACE evaluations.
+
+```{r}
+
+avgTime <- function(eval) {
+  ifelse(!is.na(eval$Spent.1.4.Hours),
+     eval$Spent.1.4.Hours * (1 + 4) / 2,
+     0) %>%
+  ifelse(!is.na(eval$Spent.5.8.Hours),
+     . + eval$Spent.5.8.Hours * (5 + 8) / 2,
+     .) %>%
+  ifelse(!is.na(eval$Spent.9.12.Hours),
+     . + eval$Spent.9.12.Hours * (9 + 12) / 2,
+     .) %>%
+  ifelse(!is.na(eval$Spent.13.16.Hours),
+     . + eval$Spent.13.16.Hours * (13 + 16) / 2,
+     .) %>%
+  ifelse(!is.na(eval$Spent.17.20.Hours),
+     . + eval$Spent.17.20.Hours * (17 + 20) / 2,
+     .) %>%
+    `/`(100)
+}
+
+```
+
+
+More processing of the data: 
+```{r}
+# Add avgTime to each 
+csEvals <- csEvals %>%
+  mutate(AvgTime = avgTime(.))
+  
+csEvalsGroup <- csEvals %>% group_by(Semester)  
+ csEvalsGroup %>% dplyr::summarize(c = mean(AvgTime))
+
+```
+
+
+
+
+
+

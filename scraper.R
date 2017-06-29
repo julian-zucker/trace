@@ -1,5 +1,6 @@
 library(RSelenium)
 library(stringr)
+library(magrittr)
 library(dplyr)
 library(XML)
 
@@ -17,14 +18,16 @@ login <- function() {
   # myNEUuser <- "your.username"
   # myNEUpass <- "your.password"
   
-  dr$navigate(urlWithCookies)
+  # The secret of this script lies in a vuln exploited by the url, 
+  # so that's going to stay hidden: the 
+  dr$navigate(urls[1])
   
   
   tries <- 0
   # Sometimes MyNEU gives you a time out error, so this waits for you to get
   # redirected to the login page before you login.
   repeat {
-    # If we found the login button, enter our credentials;
+    # If we found the login button, stop looping and enter our credentials;
     if (length(dr$findElements(using="xpath", '//form[@name="cplogin"] | //form[@id="fm1"]'))) {
       break;
     }
@@ -49,6 +52,7 @@ login <- function() {
 
 getIFrameSource <- function() {
   repeat {
+    Sys.sleep(.5)
     a <- dr$findElements("xpath", "//*[@id='contentFrame']")
     if (length(a)) {
       break
@@ -120,8 +124,7 @@ getReportURLs <- function() {
     unname() %>%
     matrix(ncol=4, byrow=TRUE)
   linkDF <- cbind(info, links)
-  linkDF <- as.data.frame(linkDF) %>%
-    lapply(as.character)
+  linkDF <- as.data.frame(linkDF, stringsAsFactors = FALSE)
   colnames(linkDF) <- c("Term", "CourseNumber", "CourseName", "Instructor", "Link")
   return(linkDF)
 }
@@ -185,10 +188,10 @@ getTraceEvals <- function(links) {
   while (curLink < length(links)) {
     # Get the current link to scrape
     link <- links[curLink]
-    dr$navigate(str_c(baseURL, link))
     
-    # I'm not doing any parsing here because evals for different programs
-    # have different formats, and I want the scraper to be general
+    # Get and parse the HTML at that page
+    dr$navigate(str_c(baseURL, link))
+    Sys.sleep(.3)
     evals[[curLink]] <- 
       getIFrameSource() %>%
       parseTraceEval()
@@ -204,118 +207,130 @@ getTraceEvals <- function(links) {
 
 
 # Every field scraped:
-scrapeFieldNames <- c("Course Name",
-                  "Instructor",
-                  "Section",
-                  "Course Title",
-                  "CRN",
-                  "Subject",
-                  "Enrollment",
-                  "Responses",
-                  "Declines",
-                  "Department",
-                  "Number",
-                  "Course Related Questions Course",
-                  "Course Related Questions Department",
-                  "Course Related Questions University",
-                  "Learning Related Questions Course",
-                  "Learning Related Questions Department",
-                  "Learning Related Questions University",
-                  "Instructor Related Questions Course",
-                  "Instructor Related Questions Department",
-                  "Instructor Related Questions University",
-                  "Instructor Effectiveness Course",
-                  "Instructor Effectiveness Department",
-                  "Instructor Effectiveness University",
-                  "Syllabus Helped Course", 
-                  "Syllabus Helped Department", 
-                  "Syllabus Helped University", 
-                  "Textbook Helped Course", 
-                  "Textbook Helped Department", 
-                  "Textbook Helped University",
-                  "Online Helped Course", 
-                  "Online Helped Department", 
-                  "Online Helped University", 
-                  "Assignments Helped Course", 
-                  "Assignments Helped Department", 
-                  "Assignments Helped University",
-                  "Lectures Helped Course", 
-                  "Lectures Helped Department", 
-                  "Lectures Helped University", 
-                  "Inclass Helped Course", 
-                  "Inclass Helped Department", 
-                  "Inclass Helped University", 
-                  "Classroom Technology Helped Course", 
-                  "Classroom Technology Helped Department", 
-                  "Classroom Technology Helped University", 
-                  "Course Was Intellectual Course", 
-                  "Course Was Intellectual Department", 
-                  "Course Was Intellectual University",
-                  "Learned a Lot Course", 
-                  "Learned a Lot Department",
-                  "Learned a Lot University", 
-                  "Learned Concepts And Principles Course", 
-                  "Learned Concepts And Principles Department", 
-                  "Learned Concepts And Principles University", 
-                  "Developed Skills Expressing Course", 
-                  "Developed Skills Expressing Department",
-                  "Developed Skills Expressing University", 
-                  "Learned Analyze and Evaluate Course", 
-                  "Learned Analyze and Evaluate Department", 
-                  "Learned Analyze and Evaluate University",
-                  "Instructor Communication Skills Course", 
-                  "Instructor Communication Skills Department", 
-                  "Instructor Communication Skills University",
-                  "Instructor Communicated Course", 
-                  "Instructor Communicated Department", 
-                  "Instructor Communicated University", 
-                  "Instructor Stated Objectives Course",
-                  "Instructor Stated Objectives Department", 
-                  "Instructor Stated Objectives University",
-                  "Instructor Covered Stated Course", 
-                  "Instructor Covered Stated Department", 
-                  "Instructor Covered Stated University", 
-                  "Instructor Prepared Course", 
-                  "Instructor Prepared Department", 
-                  "Instructor Prepared University",
-                  "Instructor Used Class Time Well Course", 
-                  "Instructor Used Class Time Well Department", 
-                  "Instructor Used Class Time Well University", 
-                  "Instructor Provided Feedback Course", 
-                  "Instructor Provided Feedback Department", 
-                  "Instructor Provided Feedback University",
-                  "Instructor Fairly Evaluated Performance Course", 
-                  "Instructor Fairly Evaluated Performance Department",
-                  "Instructor Fairly Evaluated Performance University", 
-                  "Would Recommend Course", 
-                  "Would Recommend Department",
-                  "Would Recommend University", 
-                  "Respected Students Course", 
-                  "Respected Students Department",
-                  "Respected Students University",
-                  "Instructor Took Effective Action Course",
-                  "Instructor Took Effective Action Department", 
-                  "Instructor Took Effective Action University",
-                  "Instructor Available Outside of Class Course", 
-                  "Instructor Available Outside of Class Department",
-                  "Instructor Available Outside of Class University", 
-                  "Instructor Displayed Enthusiasm Course", 
-                  "Instructor Displayed Enthusiasm Department", 
-                  "Instructor Displayed Enthusiasm University",
-                  "Instructor Overall Course",
-                  "Instructor Overall Department",
-                  "Instructor Overall University",
-                  "Spent 1-4 Hours",
-                  "Spent 5-8 Hours",
-                  "Spent 9-12 Hours",
-                  "Spent 13-16 Hours",
-                  "Spent 17-20 Hours")
+fieldNames <- c("Course Name",
+                      "Instructor",
+                      "Section",
+                      "Course Title",
+                      "CRN",
+                      "Subject",
+                      "Enrollment",
+                      "Responses",
+                      "Declines",
+                      "Department",
+                      "Number",
+                      "Course Related Questions Course",
+                      "Course Related Questions Department",
+                      "Course Related Questions University",
+                      "Learning Related Questions Course",
+                      "Learning Related Questions Department",
+                      "Learning Related Questions University",
+                      "Instructor Related Questions Course",
+                      "Instructor Related Questions Department",
+                      "Instructor Related Questions University",
+                      "Instructor Effectiveness Course",
+                      "Instructor Effectiveness Department",
+                      "Instructor Effectiveness University",
+                      "Syllabus Helped Course", 
+                      "Syllabus Helped Department", 
+                      "Syllabus Helped University", 
+                      "Textbook Helped Course", 
+                      "Textbook Helped Department", 
+                      "Textbook Helped University",
+                      "Online Helped Course", 
+                      "Online Helped Department", 
+                      "Online Helped University", 
+                      "Assignments Helped Course", 
+                      "Assignments Helped Department", 
+                      "Assignments Helped University",
+                      "Lectures Helped Course", 
+                      "Lectures Helped Department", 
+                      "Lectures Helped University", 
+                      "Inclass Helped Course", 
+                      "Inclass Helped Department", 
+                      "Inclass Helped University", 
+                      "Classroom Technology Helped Course", 
+                      "Classroom Technology Helped Department", 
+                      "Classroom Technology Helped University", 
+                      "Course Was Intellectual Course", 
+                      "Course Was Intellectual Department", 
+                      "Course Was Intellectual University",
+                      "Learned a Lot Course", 
+                      "Learned a Lot Department",
+                      "Learned a Lot University", 
+                      "Learned Concepts And Principles Course", 
+                      "Learned Concepts And Principles Department", 
+                      "Learned Concepts And Principles University", 
+                      "Developed Skills Expressing Course", 
+                      "Developed Skills Expressing Department",
+                      "Developed Skills Expressing University", 
+                      "Learned Analyze and Evaluate Course", 
+                      "Learned Analyze and Evaluate Department", 
+                      "Learned Analyze and Evaluate University",
+                      "Instructor Communication Skills Course", 
+                      "Instructor Communication Skills Department", 
+                      "Instructor Communication Skills University",
+                      "Instructor Communicated Course", 
+                      "Instructor Communicated Department", 
+                      "Instructor Communicated University", 
+                      "Instructor Stated Objectives Course",
+                      "Instructor Stated Objectives Department", 
+                      "Instructor Stated Objectives University",
+                      "Instructor Covered Stated Course", 
+                      "Instructor Covered Stated Department", 
+                      "Instructor Covered Stated University", 
+                      "Instructor Prepared Course", 
+                      "Instructor Prepared Department", 
+                      "Instructor Prepared University",
+                      "Instructor Used Class Time Well Course", 
+                      "Instructor Used Class Time Well Department", 
+                      "Instructor Used Class Time Well University", 
+                      "Instructor Provided Feedback Course", 
+                      "Instructor Provided Feedback Department", 
+                      "Instructor Provided Feedback University",
+                      "Instructor Fairly Evaluated Performance Course", 
+                      "Instructor Fairly Evaluated Performance Department",
+                      "Instructor Fairly Evaluated Performance University", 
+                      "Would Recommend Course", 
+                      "Would Recommend Department",
+                      "Would Recommend University", 
+                      "Respected Students Course", 
+                      "Respected Students Department",
+                      "Respected Students University",
+                      "Instructor Took Effective Action Course",
+                      "Instructor Took Effective Action Department", 
+                      "Instructor Took Effective Action University",
+                      "Instructor Available Outside of Class Course", 
+                      "Instructor Available Outside of Class Department",
+                      "Instructor Available Outside of Class University", 
+                      "Instructor Displayed Enthusiasm Course", 
+                      "Instructor Displayed Enthusiasm Department", 
+                      "Instructor Displayed Enthusiasm University",
+                      "Instructor Overall Course",
+                      "Instructor Overall Department",
+                      "Instructor Overall University",
+                      "Spent 1-4 Hours",
+                      "Spent 5-8 Hours",
+                      "Spent 9-12 Hours",
+                      "Spent 13-16 Hours",
+                      "Spent 17-20 Hours")
 
+
+# If selenium exists, tell user to kill it
+ps <- system("ps aux | grep selenium", intern = TRUE)
+if(any(str_detect(ps, "seleniumserver"))) {
+  stop("Selenium Server is already running... 
+       > ps aux | grep selenium
+       and kill it")
+}
 
 
 # Launch the selenium driver
 mybrowser <- rsDriver()
 dr <- mybrowser$client
+
+# Give the binaries some time... 
+# R doesn't play nice with selenium loadtime
+Sys.sleep(5)
 
 login()
 linkDF <- getReportURLs()
@@ -328,7 +343,7 @@ csClassLinks <- linkDF %>%
 
 csEvals <- getTraceEvals(csClassLinks)
 csEvalsDF <- csEvals %>% unlist %>% matrix(byrow=TRUE, ncol=106)
-colnames(csEvalsDF) <- scrapeFieldNames
+colnames(csEvalsDF) <- fieldNames
 write.csv(csEvalsDF, "CS TRACE Evaluations.csv", row.names = FALSE)
 
 mybrowser$server$stop()
