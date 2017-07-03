@@ -91,16 +91,28 @@ avgTime <- function(eval) {
 More processing of the data: 
 ```{r}
 # Add avgTime to each 
-csEvals <- csEvals %>%
-  mutate(AvgTime = avgTime(.))
-  
-csEvalsGroup <- csEvals %>% group_by(Semester)  
- csEvalsGroup %>% dplyr::summarize(c = mean(AvgTime))
+# Select only undergraduate courses
+undergradEvals <- csEvals %>% mutate(AvgTime = avgTime(.)) %>%
+  filter(Number < 5000)
 
+  
+groupedBySemester <- undergradEvals %>% group_by(Semester)  
+groupedBySemester %<>% dplyr::summarize(c = mean(AvgTime))
+groupedBySemester
 ```
 
+Summer classes are harder, but they don't seem that much harder, considering you'd only be taking two.
 
 
+Filter out the variables no one cares about for the shiny app:
+```{r}
+shinyData <- csEvals %>%
+  select(Course.Name, Instructor, Subject, Department, Number,
+         Course.Related.Questions.Course, Learning.Related.Questions.Course,
+         Instructor.Related.Questions.Course, Would.Recommend.Course,
+         Semester, AvgTime)
+
+save(shinyData, file="csEvals")
 
 
-
+```
