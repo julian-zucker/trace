@@ -1,5 +1,5 @@
 ---
-title: "analysis"
+title: "TRACE Data Analysis"
 author: "julian-zucker"
 date: "6/26/2017"
 output: 
@@ -14,9 +14,8 @@ library(plyr)
 library(dplyr)
 library(magrittr)
 library(ggplot2)
-library(doBy)
 library(stringr)
-csEvals <- read.csv("CS TRACE Evaluations.csv")
+evals <- read.csv("TRACE Evaluations.csv")
 
 ```
 
@@ -25,24 +24,24 @@ I want to cut out the variables that aren't adding value to the dataset.  Anythi
 
 ```{r}
 
-splitNames <- csEvals$Course.Name %>%
+splitNames <- evals$Course.Name %>%
   str_split(" \\(|\\)") 
 
-csEvals$Course.Name <- splitNames %>% 
+evals$Course.Name <- splitNames %>% 
   sapply(function(x) extract2(x, 1))
 
-csEvals$Semester <- splitNames %>% 
+evals$Semester <- splitNames %>% 
   sapply(function(x) extract2(x, 2))
 
 ```
 
-Now let's pull out all the department and university data into a seperate dataframe, and remove it from `csEvals`.
+Now let's pull out all the department and university data into a seperate dataframe, and remove it from `evals`.
 
 ```{r}
 
 
-firstOfEachTime <- !duplicated(csEvals$Semester)
-aggregateStats <- csEvals[firstOfEachTime,] %>%
+firstOfEachTime <- !duplicated(evals$Semester)
+aggregateStats <- evals[firstOfEachTime,] %>%
   select(matches("Department|University"))
 
 # 61 variables? That's weird, it should be divisible by two,
@@ -55,7 +54,7 @@ colnames(aggregateStats)
 # to leave it in here: knowing the department average isn't much use without 
 # knowing the department!
 
-csEvals <- csEvals %>%
+evals <- evals %>%
   select(-matches(".(Department|University)"))
 
 # The regexes are slightly different because I want to
@@ -92,7 +91,7 @@ More processing of the data:
 ```{r}
 # Add avgTime to each 
 # Select only undergraduate courses
-undergradEvals <- csEvals %>% mutate(AvgTime = avgTime(.)) %>%
+undergradEvals <- evals %>% mutate(AvgTime = avgTime(.)) %>%
   filter(Number < 5000)
 
   
@@ -101,18 +100,18 @@ groupedBySemester %<>% dplyr::summarize(c = mean(AvgTime))
 groupedBySemester
 ```
 
-Summer classes are harder, but they don't seem that much harder, considering you'd only be taking two.
+Summer classes are harder, but they don't seem that much harder, considering you'd only be taking two at a time and they don't require twice as much time.
 
 
 Filter out the variables no one cares about for the shiny app:
 ```{r}
-shinyData <- csEvals %>%
+shinyData <- evals %>%
   select(Course.Name, Instructor, Subject, Department, Number,
          Course.Related.Questions.Course, Learning.Related.Questions.Course,
          Instructor.Related.Questions.Course, Would.Recommend.Course,
          Semester, AvgTime)
 
-save(shinyData, file="csEvals")
+save(shinyData, file="evals")
 
 
 ```
