@@ -17,6 +17,7 @@
 #       CREATED: 28 June 2017
 #      REVISION: 4 July 2017
 #          TODO: Add support for law courses
+#                Scrape comments for each course and instructor
 # 
 #####################################################################################
 
@@ -118,12 +119,10 @@ getReportURLs <- function() {
     null, XPathResult.ANY_TYPE, null);')
   dr$acceptAlert()
   
-  # While the number of classes we should have is less than the amount
-  # that are currently on the screen, wait.
-  
+  # Wait for all the classes to load
   while (numClasses > length(getNodeSet(htmlParse(getIFrameSource()),
                                         '//table[@id="EvaluatedCourses"]/tbody/tr/td/a'))) {
-    Sys.sleep(1);
+    Sys.sleep(.5);
   }
   
   # Gets the text parts of the table, need to use xmlGetAttr to pull the link
@@ -157,13 +156,12 @@ getReportURLs <- function() {
 parseTraceEval <- function(eval) {
   # If it's a DMSB or LAW course, skip it -- they have a different page layout
   # that the scraper can't handle
-  if (length(dr$findElements("xpath", '//h4[contains(., "DMSB Course Questions")]'))) {
+  if (str_detect(eval, 'DMSB Course Questions')) {
     return(NA)
   }
-  if (length(dr$findElements("xpath", '//strong[contains(., "LAW")]'))) {
+  if (str_detect(eval, 'Department: LAW')) {
     return(NA)
   }
-  
   
   
   out <- vector(mode="character")
@@ -228,14 +226,14 @@ getTraceEvals <- function(links) {
   while (curLink < length(links)) {
     # Get the current link to scrape
     link <- links[curLink]
-    
-    # Get and parse the HTML at that page
-    dr$navigate(str_c(baseURL, link))
-    Sys.sleep(.3)
-    evals[[curLink]] <- 
-      getIFrameSource() %>%
-      parseTraceEval()
-    
+    try({
+      # Get and parse the HTML at that page
+      dr$navigate(str_c(baseURL, link))
+      Sys.sleep(.3)
+      evals[[curLink]] <- 
+        getIFrameSource() %>%
+        parseTraceEval()
+    })
     
     curLink <- curLink + 1
     if (curLink %% 10 == 0) {
@@ -368,14 +366,14 @@ dr <- mybrowser$client
 
 # Log in and get the links to every evaluation
 login()
-linkDF <- getReportURLs()
-
-# Law courses use a different format for their layout, so they'll have to be
-# handled seperately, with a different scraper and visualization
-classLinks <- linkDF %>%
-  filter(!str_detect(CourseNumber, "LAW")) %>%
-  use_series(Link)
-
+if (!exists("linkDF")){
+  linkDF <- getReportURLs()
+  # Law courses use a different format for their layout, so they'll have to be
+  # handled seperately, with a different scraper and visualization
+  classLinks <- linkDF %>%
+    filter(!str_detect(CourseNumber, "LAW")) %>%
+    use_series(Link)
+}
 
 evals <- getTraceEvals(classLinks)
 evalsDF <- evals %>% unlist %>% matrix(byrow=TRUE, ncol=106)
