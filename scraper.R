@@ -3,11 +3,12 @@
 #
 #          FILE: scraper.R
 #
-#         USAGE: R -f scraper.R
+#         USAGE: Rscript scraper.R port start
 #
 #   DESCRIPTION: Scrapes all the data from every TRACE evaluation since 2015
 #
-#       OPTIONS: ---
+#       OPTIONS: start -- the link to start at
+#                
 #  REQUIREMENTS: R >3.3.0, RSelenium 1.7.1, stringr 1.2.0, magrittr 1.5, 
 #                dplyr 0.7.1, XML 3.98-1.7
 #          BUGS: 
@@ -21,20 +22,34 @@
 # 
 #####################################################################################
 
-
-
+################################   Loading Packages   ####################################
 library(RSelenium)
 library(stringr)
 library(magrittr)
 library(dplyr)
 library(XML)
 
+
+##############################   Loading External Files   ################################
+
 # Sets the working directory to whatever directory this script was executed
 # from so we can source files using relative position
 setwd(".")
 
+#########################   Loading Command Line Arguments   ##############################
+# Command line arguments allow multiple selenium servers to run, on multiple ports,
+# scraping different sections of the trace evals. 17,000 is a lot of webpages to open.
+
+args <- commandArgs(trailingOnly = TRUE)
+if (length(args)) {
+  port    <- args[1] %>% as.integer()
+  curLink <- args[2] %>% as.integer()
+} else {
+  port <- 4567L
+}
 
 
+#################################   Driving Selenium   ################################### 
 # Logs in to MyNEU
 login <- function() {
   source("credentials.R", local = TRUE)
@@ -44,7 +59,7 @@ login <- function() {
   # myNEUpass <- "your.password"
   
   # The secret of this script lies in a vuln exploited by the url, 
-  # so that's going to stay hidden: the 
+  # so that's going to stay hidden
   dr$navigate(urls[1])
   
   
@@ -221,14 +236,15 @@ getTraceEvals <- function(links) {
   on.exit({
     curLink <<- curLink
     evals <<- evals
+    save(evals, file=str_c("evals", port, "at", curLink))
   })
   
   while (curLink < length(links)) {
     # Get the current link to scrape
     link <- links[curLink]
+    # Get and parse the HTML at that page
+    dr$navigate(str_c(baseURL, link))
     try({
-      # Get and parse the HTML at that page
-      dr$navigate(str_c(baseURL, link))
       Sys.sleep(.3)
       evals[[curLink]] <- 
         getIFrameSource() %>%
@@ -353,16 +369,15 @@ fieldNames <- c("Course Name",
                 "Spent 17-20 Hours")
 
 
-# If selenium exists, tell user to kill it
-ps <- system("ps aux | grep selenium", intern = TRUE)
-if(any(str_detect(ps, "seleniumserver"))) {
-  stop("Selenium Server is already running... kill it")
-}
 
+
+
+######################################  Run Script  ######################################
 
 # Launch the selenium driver
-mybrowser <- rsDriver()
+mybrowser <- rsDriver(port)
 dr <- mybrowser$client
+
 
 # Log in and get the links to every evaluation
 login()
