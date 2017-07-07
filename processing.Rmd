@@ -18,22 +18,6 @@ library(stringr)
 evals <- read.csv("TRACE Evaluations.csv")
 
 
-# Read all the files into a list
-files <- list.files(".", full.names = TRUE)
-files <- files[which(str_detect(files, "eval"))]
-file <- files[2]
-evalsDF <- t(data.frame(fieldNames))
-
-for (file in files) {
-  load(file)
-  
-  evals <- evals[-1:-2]
-  evals <- evals[which(sapply(evals, Negate(is.null)))]
-  
-  evalsDF <- evals %>% unlist %>% matrix(byrow=TRUE, ncol=106)
-  colnames(evalsDF) <- fieldNames
-  rbind(b, evalsDF)
-}
 
 ```
 

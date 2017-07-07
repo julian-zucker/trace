@@ -46,6 +46,7 @@ if (length(args)) {
   curLink <- args[2] %>% as.integer()
 } else {
   port <- 4567L
+  curLink <- 1
 }
 
 
@@ -226,9 +227,6 @@ parseTraceEval <- function(eval) {
 
 # Args: character vector representing local links on applyweb.com to be scraped
 getTraceEvals <- function(links) {
-  if (!exists("curLink")) {
-    curLink <- 1
-  }
   baseURL <- "https://www.applyweb.com"
   evals <- list(mode="character", length=length(links))
   
@@ -381,14 +379,12 @@ dr <- mybrowser$client
 
 # Log in and get the links to every evaluation
 login()
-if (!exists("linkDF")){
-  linkDF <- getReportURLs()
-  # Law courses use a different format for their layout, so they'll have to be
-  # handled seperately, with a different scraper and visualization
-  classLinks <- linkDF %>%
-    filter(!str_detect(CourseNumber, "LAW")) %>%
-    use_series(Link)
-}
+linkDF <- getReportURLs()
+# Law courses use a different format for their layout, so they'll have to be
+# handled seperately, with a different scraper and visualization
+classLinks <- linkDF %>%
+  filter(!str_detect(CourseNumber, "LAW")) %>%
+  use_series(Link)
 
 evals <- getTraceEvals(classLinks)
 evalsDF <- evals %>% unlist %>% matrix(byrow=TRUE, ncol=106)
