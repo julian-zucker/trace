@@ -20,14 +20,6 @@
 # 
 #########################################################################################
 
-load("data/evals")
-colnames(shinyData) <- c("Name", "Instructor", "Subject", "Department", "Number", 
-                         "Course Quality", "Amount Learnt", "Instructor Quality", 
-                         "Would Recommend", "Semester", "Time Per Week")
-shinyData %<>% melt(id.vars=c("Name", "Instructor", "Subject", 
-                              "Department", "Semester", "Number"))
-
-
 
 ################################   Loading Packages   ####################################
 library(plotly)
@@ -36,41 +28,59 @@ library(magrittr)
 library(dplyr)
 library(wesanderson)
 
+################################   Loading External Files   ##############################
+
+load("data/evals")
+colnames(shinyData) <- c("Name", "Instructor", "Subject", "Department", "Number", 
+                         "Course Quality", "Amount Learnt", "Instructor Quality", 
+                         "Would Recommend", "Semester", "Time Per Week")
+shinyData %<>% melt(id.vars=c("Name", "Instructor", "Subject", 
+                              "Department", "Semester", "Number"))
+
 
 ######################################  Run Server  ######################################
 
 shinyServer(function(input, output) {
-  dat <- filterData(input, output)
+  dataFilteredBySubject <- filterBySubject(input, output, shinyData)
+  dat <- filterBySubjectAndName(input, output, shinyData)
+
+  output$class <- renderUI(
+    selectInput("class",
+               "Select a course",
+               sort(unique(dataFilteredBySubject()$Name, multiple=TRUE))))
   
   output$classStatsBar <- renderPlotly({
-    p <- ggplot(dat(), aes(variable, Mean, fill=variable)) +
-      geom_blank() +
+    data <- dat() %>%
+      group_by(Instructor, variable) %>%
+      summarize(Mean = round(mean(value), 2))
+    p <- ggplot(data, aes(variable, Mean, fill=variable)) +
       facet_wrap(~Instructor) +
       geom_col() +
       theme_bw() +
       theme(axis.text.x = element_text(angle = 22, hjust = 0)) +
       xlab(NULL) +
       scale_fill_manual(values=wes_palette("Zissou"))
+    
     ggplotly(p) %>% 
       config(displayModeBar = FALSE,
              scrollZoom = FALSE,
              doubleClick = FALSE,
              showAxisDragHandles = FALSE)
   })
+  
+  return (output)
 })
 
-filterData <- function(input, output) {
+filterBySubject <- function(input, output, dat) {
   reactive({
-    if (!length(input$class)) {
-      input$class <- unique(shinyData$Course.Name)
-    }
-   # if (!length(input$instructor)) {
-   #   input$instructor <- unique(shinyData$Instructor)
-   # }
-    
-    shinyData %>% 
-      filter(Name %in% input$class) %>%
-      group_by(Instructor, variable) %>%
-      summarize(Mean = round(mean(value), 2))
+    dat %>% 
+      filter(Subject %in% input$subject)
+  })
+}
+
+filterBySubjectAndName <- function(input, output, dat) {
+  reactive({
+    dat %>% 
+      filter(Subject %in% input$subject, Name %in% input$class)
   })
 }

@@ -46,13 +46,14 @@ shinyData %<>% melt(id.vars=c("Name", "Instructor", "Subject",
 
 shinyUI(
   sidebarLayout(
-    sidebarPanel( 
-      selectInput("class", "Select Class", unique(shinyData$Name), multiple=FALSE),
-      tags$head(tags$style("#classStatsBar{height:90vh !important;}"))
-      #  selectInput("instructor", "Select Instructor", unique(shinyData$Instructor) , multiple=TRUE)
+    sidebarPanel(
+      selectInput("subject", "Select Department", unique(shinyData$Subject), multiple = FALSE),
+      uiOutput("class")
     ),
     mainPanel(
+     tags$head(tags$style("#classStatsBar{height:90vh !important;}")),
       plotlyOutput(outputId = "classStatsBar", inline=TRUE)
+      
     )
   )
 )
