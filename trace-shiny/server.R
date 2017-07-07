@@ -20,7 +20,7 @@
 # 
 #########################################################################################
 
-load("data/csEvals")
+load("data/evals")
 colnames(shinyData) <- c("Name", "Instructor", "Subject", "Department", "Number", 
                          "Course Quality", "Amount Learnt", "Instructor Quality", 
                          "Would Recommend", "Semester", "Time Per Week")
@@ -43,15 +43,19 @@ shinyServer(function(input, output) {
   dat <- filterData(input, output)
   
   output$classStatsBar <- renderPlotly({
-    p <- ggplot(dat(), aes(variable, m, fill=variable)) +
+    p <- ggplot(dat(), aes(variable, Mean, fill=variable)) +
       geom_blank() +
       facet_wrap(~Instructor) +
       geom_col() +
       theme_bw() +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+      theme(axis.text.x = element_text(angle = 22, hjust = 0)) +
       xlab(NULL) +
       scale_fill_manual(values=wes_palette("Zissou"))
-    ggplotly(p)
+    ggplotly(p) %>% 
+      config(displayModeBar = FALSE,
+             scrollZoom = FALSE,
+             doubleClick = FALSE,
+             showAxisDragHandles = FALSE)
   })
 })
 
@@ -67,6 +71,6 @@ filterData <- function(input, output) {
     shinyData %>% 
       filter(Name %in% input$class) %>%
       group_by(Instructor, variable) %>%
-      summarize(m = mean(value))
+      summarize(Mean = round(mean(value), 2))
   })
 }

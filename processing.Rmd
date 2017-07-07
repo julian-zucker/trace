@@ -3,8 +3,8 @@ title: "TRACE Data Analysis"
 author: "julian-zucker"
 date: "6/26/2017"
 output: 
- md_document:
-    variant: markdown_github
+md_document:
+variant: markdown_github
 ---
 
 ```{r setup, include=FALSE}
@@ -16,6 +16,24 @@ library(magrittr)
 library(ggplot2)
 library(stringr)
 evals <- read.csv("TRACE Evaluations.csv")
+
+
+# Read all the files into a list
+files <- list.files(".", full.names = TRUE)
+files <- files[which(str_detect(files, "eval"))]
+file <- files[2]
+evalsDF <- t(data.frame(fieldNames))
+
+for (file in files) {
+  load(file)
+  
+  evals <- evals[-1:-2]
+  evals <- evals[which(sapply(evals, Negate(is.null)))]
+  
+  evalsDF <- evals %>% unlist %>% matrix(byrow=TRUE, ncol=106)
+  colnames(evalsDF) <- fieldNames
+  rbind(b, evalsDF)
+}
 
 ```
 
@@ -67,20 +85,20 @@ Much more manageable. Time to define some utility functions on TRACE evaluations
 
 avgTime <- function(eval) {
   ifelse(!is.na(eval$Spent.1.4.Hours),
-     eval$Spent.1.4.Hours * (1 + 4) / 2,
-     0) %>%
-  ifelse(!is.na(eval$Spent.5.8.Hours),
-     . + eval$Spent.5.8.Hours * (5 + 8) / 2,
-     .) %>%
-  ifelse(!is.na(eval$Spent.9.12.Hours),
-     . + eval$Spent.9.12.Hours * (9 + 12) / 2,
-     .) %>%
-  ifelse(!is.na(eval$Spent.13.16.Hours),
-     . + eval$Spent.13.16.Hours * (13 + 16) / 2,
-     .) %>%
-  ifelse(!is.na(eval$Spent.17.20.Hours),
-     . + eval$Spent.17.20.Hours * (17 + 20) / 2,
-     .) %>%
+         eval$Spent.1.4.Hours * (1 + 4) / 2,
+         0) %>%
+    ifelse(!is.na(eval$Spent.5.8.Hours),
+           . + eval$Spent.5.8.Hours * (5 + 8) / 2,
+           .) %>%
+    ifelse(!is.na(eval$Spent.9.12.Hours),
+           . + eval$Spent.9.12.Hours * (9 + 12) / 2,
+           .) %>%
+    ifelse(!is.na(eval$Spent.13.16.Hours),
+           . + eval$Spent.13.16.Hours * (13 + 16) / 2,
+           .) %>%
+    ifelse(!is.na(eval$Spent.17.20.Hours),
+           . + eval$Spent.17.20.Hours * (17 + 20) / 2,
+           .) %>%
     `/`(100)
 }
 
@@ -94,7 +112,7 @@ More processing of the data:
 undergradEvals <- evals %>% mutate(AvgTime = avgTime(.)) %>%
   filter(Number < 5000)
 
-  
+
 groupedBySemester <- undergradEvals %>% group_by(Semester)  
 groupedBySemester %<>% dplyr::summarize(c = mean(AvgTime))
 groupedBySemester

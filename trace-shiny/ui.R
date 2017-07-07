@@ -16,7 +16,8 @@
 #  ORGANIZATION: uConnect
 #       CREATED: 23 June 2017
 #      REVISION: 5 July 2017
-#          TODO: ---
+#          TODO: Add ability to view all courses that an instructor teaches
+#                Add ability to see aggregate stats based on Department, semester, etc
 # 
 #########################################################################################
 
@@ -33,8 +34,8 @@ library(wesanderson)
 
 load("data/csEvals")
 colnames(shinyData) <- c("Name", "Instructor", "Subject", "Department", "Number", 
-                        "Course Quality", "Amount Learnt", "Instructor Quality", 
-                        "Would Recommend", "Semester", "Time Per Week")
+                         "Course Quality", "Amount Learnt", "Instructor Quality", 
+                         "Would Recommend", "Semester", "Time Per Week")
 shinyData %<>% melt(id.vars=c("Name", "Instructor", "Subject", 
                               "Department", "Semester", "Number"))
 
@@ -43,13 +44,15 @@ shinyData %<>% melt(id.vars=c("Name", "Instructor", "Subject",
 
 ######################################  Create UI   ######################################
 
-
-sidebarLayout(
-  sidebarPanel(
-    selectInput("class", "Select Class", unique(shinyData$Name), multiple=FALSE)
-  #  selectInput("instructor", "Select Instructor", unique(shinyData$Instructor) , multiple=TRUE)
-  ),
-  mainPanel(
-    plotlyOutput("classStatsBar", width = "1000px", height = "100")
+shinyUI(
+  sidebarLayout(
+    sidebarPanel( 
+      selectInput("class", "Select Class", unique(shinyData$Name), multiple=FALSE),
+      tags$head(tags$style("#classStatsBar{height:90vh !important;}"))
+      #  selectInput("instructor", "Select Instructor", unique(shinyData$Instructor) , multiple=TRUE)
+    ),
+    mainPanel(
+      plotlyOutput(outputId = "classStatsBar", inline=TRUE)
+    )
   )
 )
