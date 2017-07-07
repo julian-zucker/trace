@@ -383,7 +383,7 @@ linkDF <- getReportURLs()
 # Law courses use a different format for their layout, so they'll have to be
 # handled seperately, with a different scraper and visualization
 classLinks <- linkDF %>%
-  filter(!str_detect(CourseNumber, "LAW")) %>%
+  filter(!str_detect(CourseNumber, "LAW|LS")) %>%
   use_series(Link)
 
 evals <- getTraceEvals(classLinks)

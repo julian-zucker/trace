@@ -32,7 +32,7 @@ library(wesanderson)
 
 ##############################   Loading External Files   ################################
 
-load("data/csEvals")
+load("data/evals")
 colnames(shinyData) <- c("Name", "Instructor", "Subject", "Department", "Number", 
                          "Course Quality", "Amount Learnt", "Instructor Quality", 
                          "Would Recommend", "Semester", "Time Per Week")

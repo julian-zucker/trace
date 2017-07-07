@@ -108,6 +108,7 @@ Summer classes are harder, but they don't seem that much harder, considering you
 Filter out the variables no one cares about for the shiny app:
 ```{r}
 shinyData <- evals %>%
+  mutate(AvgTime = avgTime(.))
   select(Course.Name, Instructor, Subject, Department, Number,
          Course.Related.Questions.Course, Learning.Related.Questions.Course,
          Instructor.Related.Questions.Course, Would.Recommend.Course,
