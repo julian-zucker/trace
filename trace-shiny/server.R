@@ -67,7 +67,6 @@ shinyServer(function(input, output) {
              doubleClick = FALSE,
              showAxisDragHandles = FALSE)
   })
-  
   return (output)
 })
 
