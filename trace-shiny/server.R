@@ -68,22 +68,33 @@ shinyServer(function(input, output) {
     renderPlotly({
       # If both inputs are filled out, we can draw individual graphs
       if (!is.null(input$subject) & !is.null(input$className)) {
+        if (length(input$className) > 1) {
         data <- shinyData %>%
           filter(Name %in% input$className) %>%
-          group_by(Instructor, Name, variable) %>%
+          group_by(Name, variable) %>%
           summarize(Mean = round(mean(value), 2))
         
         p <- ggplot(data, aes(variable, Mean, fill=variable)) +
           # If there's only one class, facet by instructors, otherwise, facet by class names
-          facet_wrap(eval(if (length(input$className) > 1)
-                               quote(~Name) 
-                              else 
-                               quote(~Instructor))) +
+          facet_wrap(~Name) +
           geom_col() +
           theme_bw() +
           theme(axis.text.x = element_text(angle = 22, hjust = 0)) +
           scale_fill_manual(values=wes_palette("Zissou"))
-        
+        } else {
+          data <- shinyData %>%
+            filter(Name %in% input$className) %>%
+            group_by(Instructor, variable) %>%
+            summarize(Mean = round(mean(value), 2))
+          
+          p <- ggplot(data, aes(variable, Mean, fill=variable)) +
+            # If there's only one class, facet by instructors, otherwise, facet by class names
+            facet_wrap(~Instructor) +
+            geom_col() +
+            theme_bw() +
+            theme(axis.text.x = element_text(angle = 22, hjust = 0)) +
+            scale_fill_manual(values=wes_palette("Zissou"))
+        }
         ggplotly(p) %>% 
           config(displayModeBar = FALSE,
                  scrollZoom = FALSE,
