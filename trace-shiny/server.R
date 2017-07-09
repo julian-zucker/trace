@@ -63,7 +63,6 @@ shinyServer(function(input, output) {
                                          multiple=TRUE))
   
   
-  
   output$classStatsBar <-
     renderPlotly({
       # If both inputs are filled out, we can draw individual graphs
