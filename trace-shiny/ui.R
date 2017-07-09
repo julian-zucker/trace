@@ -59,8 +59,9 @@ shinyUI(
                            
                            ga('create', 'UA-102257141-1', 'auto');
                            ga('send', 'pageview');")),
-      plotlyOutput(outputId = "classStatsBar", inline=TRUE)
-      
+      plotlyOutput(outputId = "classStatsBar", inline=TRUE),
+      HTML('Found a bug? Want a new feature? <a href="mailto:julian.zucker@gmail.com">Email me</a>\
+           or fork <a href="github.com/julian-zucker/trace">the repo</a> and implement it yourself')
     )
   )
 )
