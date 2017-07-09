@@ -57,7 +57,7 @@ shinyServer(function(input, output) {
                                             subjects,
                                             multiple = FALSE))
   
-  output$class <-   renderUI(selectInput("className", "Select a course", 
+  output$class <-   renderUI(selectInput("className", "Select Courses", 
                                          shinyData %>% filter(Subject == input$subject) %>%
                                            use_series(Name) %>% unique %>% sort,
                                          multiple=TRUE))
@@ -66,19 +66,22 @@ shinyServer(function(input, output) {
   
   output$classStatsBar <-
     renderPlotly({
-      # If both inputs are filled out, display the graph for the current class
+      # If both inputs are filled out, we can draw individual graphs
       if (!is.null(input$subject) & !is.null(input$className)) {
         data <- shinyData %>%
-          filter(Name == input$className) %>%
-          group_by(Instructor, variable) %>%
+          filter(Name %in% input$className) %>%
+          group_by(Instructor, Name, variable) %>%
           summarize(Mean = round(mean(value), 2))
         
         p <- ggplot(data, aes(variable, Mean, fill=variable)) +
-          facet_wrap(~ Instructor) +
+          # If there's only one class, facet by instructors, otherwise, facet by class names
+          facet_wrap(eval(if (length(input$className) > 1)
+                               quote(~Name) 
+                              else 
+                               quote(~Instructor))) +
           geom_col() +
           theme_bw() +
           theme(axis.text.x = element_text(angle = 22, hjust = 0)) +
-          xlab(NULL) +
           scale_fill_manual(values=wes_palette("Zissou"))
         
         ggplotly(p) %>% 
@@ -90,24 +93,14 @@ shinyServer(function(input, output) {
         # If an input isn't filled out, display the graph for all data in aggregate
         ggplotly({
           ggplot(shinyData %>% 
-                       filter(Subject == input$subject) %>% 
+                       filter(Subject %in% input$subject) %>% 
                    group_by(Number, variable) %>% 
                    summarize(Mean = round(mean(value), 2)),
                  aes(Number, Mean, color=variable)) +
-            geom_point(aes=aes(shape=1)) +
+            geom_point() +
             geom_smooth(se=FALSE)
-          
-          
         })
       }
     })
   return (output)
 })
-
-filterBySubject <- function(input, output, data) {
-  reactive({
-    data %>% 
-      filter(Subject == input$subject)
-  })
-}
-
