@@ -392,19 +392,10 @@
 	"buffers":
 	[
 		{
-			"file": "/Users/julianzucker/Documents/projects/website/trace.js",
+			"file": "trace.js",
 			"settings":
 			{
-				"buffer_size": 0,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "index.html",
-			"settings":
-			{
-				"buffer_size": 580,
+				"buffer_size": 643,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -570,6 +561,8 @@
 	],
 	"file_history":
 	[
+		"/Users/julianzucker/Documents/projects/trace/index.html",
+		"/Users/julianzucker/Documents/projects/trace/style.css",
 		"/Users/julianzucker/Documents/projects/proc-gen/mythos/generators/main_gen.js",
 		"/Users/julianzucker/Documents/projects/proc-gen/mythos/generators/load_lists.js",
 		"/Users/julianzucker/Documents/projects/proc-gen/mythos/generators/utils.js",
@@ -695,13 +688,11 @@
 		"/Users/julianzucker/Documents/projects/tutorFind/indexScript.js",
 		"/Users/julianzucker/Documents/DS4100/FinalProject/scrape.html",
 		"/Users/julianzucker/Documents/DS4100/FinalProject/scrape.js",
-		"/Users/julianzucker/Documents/DS4100/FinalProject/teaPage.html",
-		"/Users/julianzucker/Documents/projects/advent2016/14.1.js",
-		"/Users/julianzucker/Documents/projects/advent2016/19.1.js"
+		"/Users/julianzucker/Documents/DS4100/FinalProject/teaPage.html"
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
@@ -901,57 +892,31 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/Users/julianzucker/Documents/projects/website/trace.js",
+					"file": "trace.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 643,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								643,
+								643
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "index.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 580,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								548,
-								548
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax"
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
