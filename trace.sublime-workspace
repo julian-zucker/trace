@@ -1,0 +1,1068 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"pickR",
+				"pickRandomWithFrequencies(arr, name}], except)"
+			],
+			[
+				"re",
+				"religionPrayerType"
+			],
+			[
+				"reli",
+				"religionMorals"
+			],
+			[
+				"body",
+				"bodyParts"
+			],
+			[
+				"rel",
+				"religionTenets\t(?)"
+			],
+			[
+				"GOD_",
+				"GOD_BLESSED\t(bool)"
+			],
+			[
+				"conver",
+				"convertLocations"
+			],
+			[
+				"at",
+				"attacked\t(?)"
+			],
+			[
+				"out",
+				"outdoorLocations\t[]"
+			],
+			[
+				"inj",
+				"injuries"
+			],
+			[
+				"GOD",
+				"GOD_INJURED\t(bool)"
+			],
+			[
+				"quiet",
+				"quietlySynonyms"
+			],
+			[
+				"symbo",
+				"symbolModifiers\t[]"
+			],
+			[
+				"sym",
+				"symbolModifiers\t[]"
+			],
+			[
+				"GOD_W",
+				"GOD_WITH_ORIGIN\t(bool)"
+			],
+			[
+				"generate",
+				"generateItem()"
+			],
+			[
+				"usable",
+				"usableGenerators\t[]"
+			],
+			[
+				"story",
+				"storyGenerators\t[]"
+			],
+			[
+				"JEW",
+				"JEWELRY_MATERIALS\t[]"
+			],
+			[
+				"CLOTHI",
+				"CLOTHING_MATERIALS\t[]"
+			],
+			[
+				"CLOTHIN",
+				"CLOTHING_MATERIALS"
+			],
+			[
+				"WE",
+				"WEAPON_MATERIALS\t[]"
+			],
+			[
+				"jew",
+				"jewelryMaterials\t[]"
+			],
+			[
+				"element",
+				"elementalDomains\t[]"
+			],
+			[
+				"bornFr",
+				"bornFromVoid\t(bool)"
+			],
+			[
+				"pro",
+				"pronoun\t(?)"
+			],
+			[
+				"R",
+				"Rune"
+			],
+			[
+				"generateS",
+				"generateSacredItemPrefix(type)"
+			],
+			[
+				"sac",
+				"sacredPostAdjectives\t[]"
+			],
+			[
+				"sacred",
+				"sacredPreAdjectives\t[]"
+			],
+			[
+				"clothi",
+				"clothingType\t(?)"
+			],
+			[
+				"gene",
+				"generateNumDomains()"
+			],
+			[
+				"gen",
+				"generateDomains()"
+			],
+			[
+				"doma",
+				"domainsString\t(str)"
+			],
+			[
+				"Credentials",
+				"credentials"
+			],
+			[
+				"destin",
+				"destionation"
+			],
+			[
+				"adj",
+				"adjacentTiles"
+			],
+			[
+				"resouce",
+				"resources"
+			],
+			[
+				"is",
+				"isPrototypeOf"
+			],
+			[
+				"adjacent",
+				"adjacentTiles\t[]"
+			],
+			[
+				"spawnWo",
+				"spawnWorkers"
+			],
+			[
+				"NUMBER",
+				"NUMBER_OF_STARTING_WORKERS\t(num)"
+			],
+			[
+				"spawn",
+				"spawnWorkers"
+			],
+			[
+				"Upda",
+				"updatePeople"
+			],
+			[
+				"WO",
+				"WORLD_RUNTIME\t(num)"
+			],
+			[
+				"comm",
+				"communityURL\t(?)"
+			],
+			[
+				"normalizeD",
+				"normalizedData"
+			],
+			[
+				"Normalize",
+				"NormalizedHeightMap"
+			],
+			[
+				"con",
+				"constructor\t@constructor"
+			],
+			[
+				"featured",
+				"featuredUserUrls"
+			],
+			[
+				"asser",
+				"assertElementCount"
+			],
+			[
+				"assertE",
+				"assertElementCount"
+			],
+			[
+				"sear",
+				"searchBarXpath"
+			],
+			[
+				"menuB",
+				"menuBarGuestButtonXpath"
+			],
+			[
+				"menuBar",
+				"menuBarLoginButtonXpath"
+			],
+			[
+				"get",
+				"getCurrentUrl"
+			],
+			[
+				"schoo",
+				"schoolLogoXPath"
+			],
+			[
+				"waitFor",
+				"waitForXpath"
+			],
+			[
+				"testC",
+				"testCases"
+			],
+			[
+				"careers",
+				"careersiteurl"
+			],
+			[
+				"career",
+				"careersiteurl"
+			],
+			[
+				"neigh",
+				"neighborAverages"
+			],
+			[
+				"nei",
+				"neighborCount"
+			],
+			[
+				"build",
+				"buildTileMap"
+			],
+			[
+				"cno",
+				"console"
+			],
+			[
+				"dis",
+				"distanceTo"
+			],
+			[
+				"pass",
+				"password"
+			],
+			[
+				"hubspo",
+				"hubspotCredentials"
+			],
+			[
+				"emails",
+				"emailsMissing"
+			],
+			[
+				"contact",
+				"Contact"
+			],
+			[
+				"en",
+				"enrollees"
+			],
+			[
+				"conta",
+				"contactsStream"
+			],
+			[
+				"com",
+				"upArrowSelectedCommand"
+			],
+			[
+				"margi",
+				"margin-bottom"
+			],
+			[
+				"ali",
+				"align-self"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"backgr",
+				"background-color"
+			],
+			[
+				"ma",
+				"margin-top"
+			],
+			[
+				"align-",
+				"align-content"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"conte",
+				"align-content"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"origin",
+				"origin_id"
+			],
+			[
+				"airline",
+				"airline_id"
+			],
+			[
+				"aircra",
+				"aircraft_type_id"
+			],
+			[
+				"coff",
+				"coffee_id"
+			],
+			[
+				"order",
+				"order_id"
+			],
+			[
+				"cus",
+				"customer_id"
+			],
+			[
+				"company",
+				"company_name"
+			],
+			[
+				"cu",
+				"customer_id"
+			],
+			[
+				"backgroun",
+				"background-size"
+			],
+			[
+				"max",
+				"max-width"
+			],
+			[
+				"mve",
+				"movedLetter"
+			],
+			[
+				"y",
+				"yIndex"
+			],
+			[
+				"blocked",
+				"blockedArr"
+			],
+			[
+				"block",
+				"blockedArr"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/Users/julianzucker/Documents/projects/website/trace.js",
+			"settings":
+			{
+				"buffer_size": 0,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 580,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Default/Syntax Tests.sublime-build",
+					""
+				],
+				[
+					"Packages/Default/Syntax Tests.sublime-build",
+					"All Syntaxes"
+				],
+				[
+					"Packages/Default/Syntax Tests.sublime-build",
+					"Performance"
+				],
+				[
+					"Packages/Default/Syntax Tests.sublime-build",
+					"Regex Compatibility"
+				],
+				[
+					"Packages/PackageDev/Support/Convert to ....sublime-build",
+					""
+				],
+				[
+					"Packages/PackageDev/Support/Convert to ....sublime-build",
+					"JSON"
+				],
+				[
+					"Packages/PackageDev/Support/Convert to ....sublime-build",
+					"Property List"
+				],
+				[
+					"Packages/PackageDev/Support/Convert to ....sublime-build",
+					"YAML (Block Style)"
+				],
+				[
+					"Packages/PackageDev/Support/Convert to ....sublime-build",
+					"YAML (Default Style)"
+				]
+			],
+			[
+				"Packages/Default/Syntax Tests.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "rein",
+		"selected_items":
+		[
+			[
+				"rein",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"for",
+				"Format: Javascript"
+			],
+			[
+				"form",
+				"Format: Javascript"
+			],
+			[
+				"",
+				"Format: Javascript"
+			],
+			[
+				"\\",
+				"Snippet: #!/usr/bin/env"
+			],
+			[
+				"open",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"format",
+				"Format: Javascript"
+			],
+			[
+				"js",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"j",
+				"Format: Javascript"
+			],
+			[
+				"rei",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"inde",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"reindent lines",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"reinte",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"indent",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"indent a",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"install pac",
+				"Package Control: Install Package"
+			],
+			[
+				"install ",
+				"Install Package Control"
+			],
+			[
+				"inden",
+				"Indentation: Reindent Lines"
+			]
+		],
+		"width": 539.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/julianzucker/Documents/projects/trace"
+	],
+	"file_history":
+	[
+		"/Users/julianzucker/Documents/projects/proc-gen/mythos/generators/main_gen.js",
+		"/Users/julianzucker/Documents/projects/proc-gen/mythos/generators/load_lists.js",
+		"/Users/julianzucker/Documents/projects/proc-gen/mythos/generators/utils.js",
+		"/Users/julianzucker/Documents/projects/proc-gen/survival-story/README.md",
+		"/Users/julianzucker/Documents/projects/proc-gen/survival-story/ARCHITECTURE.md",
+		"/Users/julianzucker/.bash_profile",
+		"/Users/julianzucker/Documents/uConnect/kpis/kpi-meeting-setup.sh",
+		"/Users/julianzucker/Documents/projects/proc-gen/survival-stories/README.md",
+		"/Users/julianzucker/Documents/projects/proc-gen/terrain/proc-gen.html",
+		"/Users/julianzucker/Documents/projects/proc-gen/.eslintrc.json",
+		"/Users/julianzucker/Documents/projects/proc-gen/.eslintignore",
+		"/Users/julianzucker/Documents/projects/tmp/mythos/main_gen.js",
+		"/Users/julianzucker/Documents/projects/proc-gen/mythos/index.html",
+		"/Users/julianzucker/Documents/projects/proc-gen/mythos/main_gen.js",
+		"/Users/julianzucker/Documents/projects/tmp/mythos/index.html",
+		"/Users/julianzucker/Documents/projects/proc-gen/mythos/generators/load_generators.js",
+		"/Users/julianzucker/Documents/projects/proc-gen/mythos/load_generators.js",
+		"/Users/julianzucker/Documents/projects/proc-gen/mythos/loadData.js",
+		"/Users/julianzucker/Documents/projects/proc-gen/mythos/collection/deityNames.js",
+		"/Users/julianzucker/Documents/projects/proc-gen/index.html",
+		"/Users/julianzucker/Documents/projects/proc-gen/mythos/collection/domains.txt",
+		"/Users/julianzucker/Documents/projects/proc-gen/mythos/collection/domainNames.sh",
+		"/Users/julianzucker/Documents/projects/proc-gen/mythos/collection/deityNames.txt",
+		"/Users/julianzucker/Documents/uConnect/hubspot-automation/Hubspot Enroller.R",
+		"/Users/julianzucker/Documents/uConnect/hubspot-automation/login2.jpg",
+		"/Users/julianzucker/Documents/uConnect/hubspot-automation/cookies.txt",
+		"/Users/julianzucker/Documents/uConnect/hubspot-automation/login.jpg",
+		"/Users/julianzucker/Documents/uConnect/hubspot-automation/hubspot-enroller.js",
+		"/Users/julianzucker/Documents/projects/l-curve-visualizer/app.js",
+		"/Users/julianzucker/Documents/projects/l-curve-visualizer/index.html",
+		"/Users/julianzucker/Downloads/Source/Pawn/AI/JobDrivers/Casting/JobDriver_Ignite.cs",
+		"/Users/julianzucker/Downloads/Source/Pawn/AI/JobDrivers/Basics/JobDriver_Wait.cs",
+		"/Users/julianzucker/Downloads/Source/Building/Various/Building_Door.cs",
+		"/Users/julianzucker/Downloads/Source/Building/Storage/Building_Storage.cs",
+		"/Users/julianzucker/Downloads/Source/Defs/DefTypes/RoofDef.cs",
+		"/Users/julianzucker/Downloads/Source/Defs/DefTypes/FactionDef.cs",
+		"/Users/julianzucker/Downloads/Source/Building/Building.cs",
+		"/Users/julianzucker/Downloads/Source/Storyteller/Incidents/Workers/IncidentWorker_RefugeePodCrash.cs",
+		"/Users/julianzucker/Documents/projects/proc-gen/procgen.js",
+		"/Users/julianzucker/Library/Application Support/Sublime Text 3/Packages/Color Scheme - Default/Monokai.tmTheme",
+		"/Users/julianzucker/Library/Application Support/Sublime Text 3/Cache/Color Scheme - Default/Monokai.tmTheme.cache",
+		"/Users/julianzucker/Documents/uConnect/uc-test/tests/navigation.js",
+		"/Users/julianzucker/Documents/uConnect/uc-test/tests/modules.js",
+		"/Users/julianzucker/Documents/uConnect/uc-test/setup.js",
+		"/Users/julianzucker/Documents/uConnect/uc-test/tests/site-identity.js",
+		"/Users/julianzucker/Documents/uConnect/uc-test/README.md",
+		"/Users/julianzucker/Documents/uConnect/uc-test/tests/general.js",
+		"/Users/julianzucker/Documents/uConnect/data-collection/schoolkeep.js",
+		"/Users/julianzucker/Documents/uConnect/uc-test/export-all-users.js",
+		"/Users/julianzucker/Documents/uConnect/uc-test/tests/export-all-users.js",
+		"/Users/julianzucker/Documents/uConnect/uc-test/general.js",
+		"/Users/julianzucker/Documents/uConnect/uc-test/site-identity.js",
+		"/Users/julianzucker/Documents/uConnect/uc-test/modules.js",
+		"/Users/julianzucker/Documents/uConnect/uc-test/navigation.js",
+		"/Users/julianzucker/Documents/projects/trace/README.md",
+		"/Users/julianzucker/Documents/projects/website/index.html",
+		"/Users/julianzucker/Documents/projects/proc-gen/proc-gen.html",
+		"/Users/julianzucker/Documents/projects/website/style.css",
+		"/Users/julianzucker/Documents/projects/website/website.html",
+		"/Users/julianzucker/Documents/uConnect/uc-test/install-phantomjs-dependencies.sh",
+		"/Users/julianzucker/Documents/uConnect/uc-test/test.js",
+		"/Users/julianzucker/Documents/projects/proc-gen/history/Screen Shot 2017-07-04 at 12.21.12 PM.png",
+		"/Users/julianzucker/Documents/projects/proc-gen/history/Screen Shot 2017-07-08 at 1.59.07 PM.png",
+		"/Users/julianzucker/Documents/projects/proc-gen/procgenholder.html",
+		"/Users/julianzucker/Documents/projects/proc-gen/jquery-3.2.1.min.js",
+		"/Users/julianzucker/Downloads/Ashford_Academy-all/Ashford Academy.sh",
+		"/Users/julianzucker/Documents/uConnect/uc-test/asdf.js",
+		"/Users/julianzucker/Documents/uConnect/uc-test/phantom-js-test.js",
+		"/Users/julianzucker/Documents/uConnect/uc-test/sample.js",
+		"/Users/julianzucker/Downloads/2112.tmTheme",
+		"/Users/julianzucker/Documents/projects/sink/editor-configs/sublime-text-3/sink.sublime-syntax",
+		"/Users/julianzucker/Documents/projects/sink/editor-configs/sublime-text-3/sublimetest.sink",
+		"/Users/julianzucker/Documents/projects/sink/editor-configs/sublime-text-3/install-syntax.sh",
+		"/Users/julianzucker/Documents/projects/sink/editor-configs/sink.sublime-syntax",
+		"/Users/julianzucker/Downloads/sanity.sink",
+		"/Users/julianzucker/Documents/misc/templates/R template.txt",
+		"/Users/julianzucker/Documents/uConnect/hubspot-automation/README.md",
+		"/Users/julianzucker/Documents/uConnect/data-collection/README.md",
+		"/Users/julianzucker/Documents/projects/trace/launch-scraper.sh",
+		"/Users/julianzucker/Documents/misc/templates/script template.txt",
+		"/Users/julianzucker/Documents/projects/proc-gen/procgen.coffee",
+		"/Users/julianzucker/Documents/projects/proc-gen/run-procgen.sh",
+		"/Users/julianzucker/Documents/uConnect/hubspot-automation/enroll.sh",
+		"/Users/julianzucker/Documents/uConnect/hubspot-automation/out.txt",
+		"/Users/julianzucker/Documents/uConnect/hubspot-automation/credentials.txt",
+		"/Users/julianzucker/Documents/misc/every-regex.regex",
+		"/Users/julianzucker/Documents/misc/every-regex.pl",
+		"/Users/julianzucker/shib.sh",
+		"/Library/Frameworks/R.framework/Versions/3.3/Resources/library/shiny/examples/01_hello/server.R",
+		"/Library/Frameworks/R.framework/Versions/3.3/Resources/library/shiny/examples/01_hello/ui.R",
+		"/tmp/subl stdin XPZZgA.txt",
+		"/Library/Frameworks/R.framework/Versions/3.3/Resources/library/shiny/examples/02",
+		"/Users/julianzucker/Documents/projects/trace/eval.csv",
+		"/Users/julianzucker/Documents/projects/trace/evals1",
+		"/Users/julianzucker/Documents/projects/trace/iframe.js",
+		"/Users/julianzucker/Documents/projects/trace/traceMainSource.html",
+		"/Users/julianzucker/Documents/projects/trace/source.html",
+		"/Users/julianzucker/Documents/projects/trace/.gitignore",
+		"/Users/julianzucker/Documents/projects/src/repl.html",
+		"/Users/julianzucker/src/repl.html",
+		"/Users/julianzucker/Documents/projects/sink/src/repl.html",
+		"/Users/julianzucker/Downloads/pubs.sh",
+		"/Users/julianzucker/Documents/uConnect/data-collection/out.html",
+		"/Users/julianzucker/Documents/uConnect/data-collection/phantomJS.js",
+		"/Users/julianzucker/Documents/uConnect/data-collection/HEP",
+		"/Users/julianzucker/Documents/uConnect/data-collection/Sales/hubspot-info.txt",
+		"/Users/julianzucker/Documents/projects/snapAPI.php",
+		"/Users/julianzucker/Downloads/code/src/cs3500/husky/novars/success/AndExp.java",
+		"/Users/julianzucker/Downloads/code/src/cs3500/hw02/FreecellOperations.java",
+		"/Users/julianzucker/Documents/keys/instance1.pem",
+		"/Users/julianzucker/Downloads/wt/del_rpyc.bat",
+		"/Users/julianzucker/Documents/misc/wt/Witch Trainer.py",
+		"/usr/include/php/ext/standard/html_tables.h",
+		"/Users/julianzucker/Makefrag.cc",
+		"/Users/julianzucker/Zomboid/options.ini",
+		"/Users/julianzucker/Documents/projects/tutorFind/style.css",
+		"/Users/julianzucker/Documents/projects/tutorFind/tutorPageScript.js",
+		"/Users/julianzucker/Documents/projects/tutorFind/tutorpage.html",
+		"/Users/julianzucker/Documents/projects/tutorFind/studentpage.html",
+		"/Users/julianzucker/Documents/projects/tutorFind/studentsignup.html",
+		"/Users/julianzucker/Documents/projects/tutorFind/index.html",
+		"/Users/julianzucker/Documents/projects/tutorFind/tutorsignup.html",
+		"/Users/julianzucker/Documents/projects/tutorFind/indexScript.js",
+		"/Users/julianzucker/Documents/DS4100/FinalProject/scrape.html",
+		"/Users/julianzucker/Documents/DS4100/FinalProject/scrape.js",
+		"/Users/julianzucker/Documents/DS4100/FinalProject/teaPage.html",
+		"/Users/julianzucker/Documents/projects/advent2016/14.1.js",
+		"/Users/julianzucker/Documents/projects/advent2016/19.1.js"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"<current file>",
+			"",
+			"<current file>",
+			"",
+			"<current file>",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"smiteTypes",
+			"bodyParts",
+			"generateItems",
+			"king",
+			"titles",
+			"transitions",
+			"era",
+			"battle",
+			"locations",
+			"injuryOverview",
+			"weapon",
+			"bodypar",
+			"q",
+			"animal",
+			"happyEra",
+			"console.log",
+			"pantheon",
+			"story",
+			"\"",
+			" }",
+			"{ name: \"\"},\n{ name: \"\"},\n{ name: \"\"},\n{ name: \"\"},\n{ name: \"\"},",
+			"js",
+			"getScript",
+			"Object.create(",
+			"generateClothing",
+			"prefix",
+			"god",
+			",",
+			"\"a pair of\"",
+			"\"a\"",
+			"[\"she\"]",
+			"[\"he\"]",
+			"\\n",
+			"\n",
+			"generateOwnership",
+			"\n\t",
+			"of",
+			"title",
+			",",
+			"credential",
+			"hubspotCredentials",
+			"lSystem",
+			".loc",
+			"loc",
+			"findPath",
+			"destionation",
+			"path",
+			"WORLD.TERRAIN",
+			"isproro",
+			"generateTerrain",
+			"person.",
+			":",
+			"CLASS",
+			"offset",
+			";\n",
+			"------.*\\n",
+			"------",
+			"getTileThat",
+			"`",
+			"expandCities",
+			"comment",
+			"world",
+			"World",
+			"x",
+			"minim",
+			"generateCity",
+			"tile.city",
+			"    ",
+			"getTile(map",
+			"getTile",
+			"262",
+			"TERRAIN",
+			"TERRAINWORLD",
+			"TERRAIN",
+			"generateTer",
+			"Terrain",
+			"const",
+			"=",
+			"/login/bypass",
+			", '",
+			"{ url:",
+			", ,",
+			"name.*?},",
+			"login/bypass",
+			".edu/",
+			"user page",
+			"<span itemprop=\"jobTitle\">Data And Automation Intern</span> @ <span itemprop=\"worksFor\">uConnect Inc.</span>",
+			"h3",
+			"h1,h2,h3",
+			"h3",
+			";",
+			"}",
+			"font",
+			"generate",
+			"map",
+			"normalize",
+			"color",
+			"Math",
+			"{\n",
+			"test",
+			"contains",
+			"JSON",
+			"menuBar",
+			"menuBarSignupButtonXpath",
+			"menuBarLoginButtonXpath",
+			"menuBarGuestButtonXpath",
+			"uconnectLink",
+			"XPath",
+			"guestLoginXPath",
+			"thi",
+			"return",
+			"}\n",
+			"'//*[@",
+			"testCases",
+			")",
+			"siteLogo",
+			"x",
+			"})\n",
+			"careersiteurl",
+			"/, ",
+			"/admin/",
+			"\\s*$",
+			"\\[[0-9]*\\]",
+			"\\[[0-0]\\]",
+			" /",
+			"brew",
+			"#         ",
+			"#"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"injuriesOverview",
+			"",
+			"\"},\n{ name: \"",
+			"\"pair\"",
+			"\"single\"",
+			"femalePronouns",
+			"malePronouns",
+			",",
+			"\n\",\"",
+			"\n",
+			"getTile",
+			"TERRAIN",
+			"",
+			"'",
+			",",
+			"login/bypass/",
+			".edu/login/bypass",
+			"span",
+			";\n",
+			"}\n",
+			"}\\n",
+			"Xpath",
+			"/', ",
+			"/",
+			"",
+			"*",
+			"bound",
+			"cap",
+			"\\\"",
+			"darkblue",
+			"blue",
+			"curHeight",
+			"prevBottom",
+			"curBottom",
+			"\""
+		],
+		"reverse": false,
+		"show_context": false,
+		"use_buffer2": false,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/Users/julianzucker/Documents/projects/website/trace.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 580,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								548,
+								548
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 0.0
+	},
+	"output.find_results":
+	{
+		"height": 100.0
+	},
+	"output.package_dev":
+	{
+		"height": 100.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 100.0
+	},
+	"pinned_build_system": "",
+	"project": "trace.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"procgen.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Documents/projects/proc-gen/mythos/generators/website.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 148.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

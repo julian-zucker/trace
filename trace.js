@@ -1,0 +1,1 @@
+d3.csv('groupedEvals.csv', d => console.log(d))

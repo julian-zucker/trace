@@ -30,7 +30,7 @@ library(reshape2)
 library(magrittr)
 library(dplyr)
 library(wesanderson)
-
+library(stringr)
 
 ##############################   Loading External Files   ################################
 
@@ -114,3 +114,5 @@ shinyServer(function(input, output) {
     })
   return (output)
 })
+
+library(dplyr)
